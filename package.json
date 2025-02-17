@@ -1,0 +1,27 @@
+{
+  "name": "nodejs-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "dev:gateway": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/gateway.ts",
+    "dev:auth": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/auth.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.16.18",
+    "@types/ws": "^8.5.14",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.12.6",
+    "@grpc/proto-loader": "^0.7.13",
+    "ws": "^8.12.0"
+  }
+}

@@ -1,17 +1,9 @@
 import * as grpc from "@grpc/grpc-js";
 import * as fs from "fs";
 import * as path from "path";
-import * as protoLoader from "@grpc/proto-loader";
+import { createGrpcClient } from "../utils/grpcUtils";
 
-const packageDefinition = protoLoader.loadSync("./src/proto/auth.proto", {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true,
-});
-
-const authPackage = grpc.loadPackageDefinition(packageDefinition) as any;
+const authPackage = createGrpcClient("./src/proto/auth.proto");
 
 const server = new grpc.Server();
 const grpcHandlersDir = path.join(__dirname, "../messageHandlers/grpc");

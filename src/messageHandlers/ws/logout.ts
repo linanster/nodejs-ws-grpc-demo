@@ -1,18 +1,7 @@
 import * as grpc from "@grpc/grpc-js";
-import * as protoLoader from "@grpc/proto-loader";
+import { createGrpcClient } from "../../utils/grpcUtils";
 
-// 加载 proto 文件
-const PROTO_PATH = __dirname + "/../../../src/proto/auth.proto";
-
-const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true,
-});
-
-const authPackage = grpc.loadPackageDefinition(packageDefinition) as any;
+const authPackage = createGrpcClient("./src/proto/auth.proto");
 
 // 创建 gRPC 客户端
 const client = new (authPackage as any).auth.AuthService(

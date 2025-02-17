@@ -1,4 +1,6 @@
 import * as grpc from '@grpc/grpc-js';
+import * as fs from 'fs';
+import * as path from 'path';
 import * as protoLoader from '@grpc/proto-loader';
 
 const packageDefinition = protoLoader.loadSync(
@@ -14,24 +16,30 @@ const packageDefinition = protoLoader.loadSync(
 
 const authPackage = grpc.loadPackageDefinition(packageDefinition) as any;
 
-function login(call: grpc.ServerUnaryCall<any, any>, callback: grpc.sendUnaryData<any>) {
-  const { username, password } = call.request;
-  // 这里添加登录逻辑
-  if (username === 'admin' && password === 'password') {
-    callback(null, { success: true, message: 'Login successful' });
-  } else {
-    callback(null, { success: false, message: 'Invalid credentials' });
-  }
-}
 
-// 添加: logout 方法
-function logout(call: grpc.ServerUnaryCall<any, any>, callback: grpc.sendUnaryData<any>) {
-  callback(null, { success: true, message: "" });
-}
 
 const server = new grpc.Server();
-// 修改: 确保正确引用 AuthService
-server.addService(authPackage.auth.AuthService.service, { login, logout }); 
+const grpcHandlersDir = path.join(__dirname, '../messageHandlers/grpc');
+
+// 添加: 定义 service 类型
+interface Service {
+  [key: string]: grpc.handleUnaryCall<any, any>;
+}
+
+const service: Service = {};
+
+fs.readdirSync(grpcHandlersDir).forEach(file => {
+  if (file.endsWith('.ts')) {
+    const handlerModule = require(path.join(grpcHandlersDir, file));
+    for (const key in handlerModule) {
+      if (typeof handlerModule[key] === 'function') {
+        service[key] = handlerModule[key];
+      }
+    }
+  }
+});
+
+server.addService(authPackage.auth.AuthService.service, service); 
 server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
   console.log('Server running at http://0.0.0.0:50051');
 });

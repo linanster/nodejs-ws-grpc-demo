@@ -24,9 +24,14 @@ function login(call: grpc.ServerUnaryCall<any, any>, callback: grpc.sendUnaryDat
   }
 }
 
+// 添加: logout 方法
+function logout(call: grpc.ServerUnaryCall<any, any>, callback: grpc.sendUnaryData<any>) {
+  callback(null, { success: true, message: "" });
+}
+
 const server = new grpc.Server();
 // 修改: 确保正确引用 AuthService
-server.addService(authPackage.auth.AuthService.service, { login }); 
+server.addService(authPackage.auth.AuthService.service, { login, logout }); 
 server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
   console.log('Server running at http://0.0.0.0:50051');
 });

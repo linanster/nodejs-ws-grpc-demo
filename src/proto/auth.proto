@@ -4,6 +4,7 @@ package auth;
 
 service AuthService {
   rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Logout (LogoutRequest) returns (LogoutResponse);
 }
 
 message LoginRequest {
@@ -12,6 +13,16 @@ message LoginRequest {
 }
 
 message LoginResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message LogoutRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LogoutResponse {
   bool success = 1;
   string message = 2;
 }

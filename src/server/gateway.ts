@@ -4,7 +4,7 @@ import path from "path";
 
 const wss = new WebSocket.Server({ port: 8080 });
 
-const handlersPath = path.join(__dirname, "../messageHandlers/ws/");
+const handlersPath = path.join(__dirname, "../messageHandlers/gateway/ws/");
 const handlers: Record<string, (ws: WebSocket, data: any) => void> = fs
   .readdirSync(handlersPath)
   .filter((file) => file.endsWith(".ts"))

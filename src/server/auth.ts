@@ -6,7 +6,7 @@ import { createGrpcClient } from "../utils/grpcUtils";
 const authPackage = createGrpcClient("./src/proto/auth.proto");
 
 const server = new grpc.Server();
-const grpcHandlersDir = path.join(__dirname, "../messageHandlers/grpc");
+const grpcHandlersDir = path.join(__dirname, "../messageHandlers/auth/grpc");
 
 // 添加: 定义 service 类型
 interface Service {

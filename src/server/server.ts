@@ -2,6 +2,8 @@ import WebSocket from "ws";
 import fs from "fs";
 import path from "path";
 import { sendWsResponse } from "../utils/wsUtils";
+import * as grpc from "@grpc/grpc-js";
+import { createGrpcClient } from "../utils/grpcUtils";
 
 export class Server {
   public serverType: string;
@@ -56,5 +58,39 @@ export class Server {
     });
 
     console.log(`WebSocket server is running on ws://localhost:${port}`); // 使用传入的端口号
+  }
+
+  public startGrpc(
+    port: number,
+    serviceDefinition: grpc.ServiceDefinition,
+  ): void {
+    const grpcHandlersDir = path.join(
+      __dirname,
+      "../messageHandlers/" + this.serverType + "/grpc",
+    );
+    const server = new grpc.Server();
+    interface Service {
+      [key: string]: grpc.handleUnaryCall<any, any>;
+    }
+    const service: Service = {};
+    fs.readdirSync(grpcHandlersDir).forEach((file) => {
+      if (file.endsWith(".ts")) {
+        const handlerModule = require(path.join(grpcHandlersDir, file));
+        for (const key in handlerModule) {
+          if (typeof handlerModule[key] === "function") {
+            service[key] = handlerModule[key];
+          }
+        }
+      }
+    });
+
+    server.addService(serviceDefinition, service);
+    server.bindAsync(
+      "0.0.0.0:" + port,
+      grpc.ServerCredentials.createInsecure(),
+      () => {
+        console.log("Server running at http://0.0.0.0:" + port);
+      },
+    );
   }
 }

@@ -5,6 +5,8 @@ package gateway;
 service GatewayService {
   rpc Login (LoginRequest) returns (LoginResponse);
   rpc Logout (LogoutRequest) returns (LogoutResponse);
+  rpc Streamcall (stream Request) returns (stream Response);
+
 }
 
 message LoginRequest {
@@ -25,4 +27,12 @@ message LogoutRequest {
 message LogoutResponse {
   bool success = 1;
   string message = 2;
+}
+
+message Request {
+  string message = 1;
+}
+
+message Response {
+  string message = 1;
 }

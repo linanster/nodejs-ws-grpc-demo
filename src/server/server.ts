@@ -70,7 +70,9 @@ export class Server {
     );
     const server = new grpc.Server();
     interface Service {
-      [key: string]: grpc.handleUnaryCall<any, any>;
+      [key: string]:
+        | grpc.handleUnaryCall<any, any>
+        | grpc.handleBidiStreamingCall<any, any>;
     }
     const service: Service = {};
     fs.readdirSync(grpcHandlersDir).forEach((file) => {

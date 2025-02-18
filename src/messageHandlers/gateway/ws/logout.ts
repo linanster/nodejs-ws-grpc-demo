@@ -1,6 +1,7 @@
 import * as grpc from "@grpc/grpc-js";
 import { createGrpcClient } from "../../../utils/grpcUtils";
 import { sendWsResponse } from "../../../utils/wsUtils";
+import WebSocket from "ws";
 
 const authPackage = createGrpcClient("./src/proto/auth.proto");
 

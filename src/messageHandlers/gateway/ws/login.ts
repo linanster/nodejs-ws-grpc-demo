@@ -1,6 +1,7 @@
 import * as grpc from "@grpc/grpc-js";
 import { createGrpcClient } from "../../../utils/grpcUtils";
 import { sendWsResponse } from "../../../utils/wsUtils";
+import WebSocket from "ws";
 
 const authPackage = createGrpcClient("./src/proto/auth.proto");
 
@@ -19,13 +20,13 @@ export default function handlerLogin(ws: WebSocket, data: any) {
     (err: any, response: any) => {
       if (err) {
         console.error("gRPC error:", err);
-        sendWsResponse(ws, "loginResponse", {
+        sendWsResponse(ws, "login", {
           success: false,
           message: "认证失败",
         });
       } else {
         console.log("gRPC response:", response);
-        sendWsResponse(ws, "loginResponse", response);
+        sendWsResponse(ws, "login", response);
       }
     },
   );

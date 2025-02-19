@@ -22,10 +22,10 @@ export class Server {
     );
     const handlers = fs
       .readdirSync(handlersPath)
-      .filter((file) => file.endsWith(".ts"))
+      .filter((file) => file.endsWith(".ts") || file.endsWith(".js"))
       .reduce(
         (acc, file) => {
-          const messageType = path.basename(file, ".ts");
+          const messageType = path.basename(file, path.extname(file));
           acc[messageType] = require(path.join(handlersPath, file)).default;
           return acc;
         },
@@ -76,7 +76,7 @@ export class Server {
     }
     const service: Service = {};
     fs.readdirSync(grpcHandlersDir).forEach((file) => {
-      if (file.endsWith(".ts")) {
+      if (file.endsWith(".ts") || file.endsWith(".js")) {
         const handlerModule = require(path.join(grpcHandlersDir, file));
         for (const key in handlerModule) {
           if (typeof handlerModule[key] === "function") {

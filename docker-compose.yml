@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  auth1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "npm i & npm run proto-gen && tsc && PORT=50051 node dist/server/auth.js"
+    environment:
+      - PORT=50051
+
+  auth2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "npm i & npm run proto-gen && tsc && PORT=50052 node dist/server/auth.js"
+    environment:
+      - PORT=50052
+
+  auth-lb:
+    image: nginx:latest
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - auth1
+      - auth2

@@ -1,7 +1,13 @@
 import { Server } from "./server";
 import { createGrpcClient } from "../utils/grpcUtils";
 
-const server = new Server("auth");
+export class AuthServer extends Server {
+  constructor() {
+    super("auth");
+  }
+}
+
+const server = new AuthServer();
 const protoPackage = createGrpcClient("./src/proto/auth.proto");
 const grpcPort = process.env.GRPC_PORT
   ? parseInt(process.env.GRPC_PORT, 10)

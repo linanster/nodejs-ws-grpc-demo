@@ -1,10 +1,10 @@
 import * as grpc from "@grpc/grpc-js";
-import { Server } from "../../../server/server";
+import { AuthServer } from "../../../server/auth";
 
 export function logout(
   call: grpc.ServerUnaryCall<any, any>,
   callback: grpc.sendUnaryData<any>,
-  server: Server,
+  server: AuthServer,
 ) {
   callback(null, { success: true, message: "" });
 }

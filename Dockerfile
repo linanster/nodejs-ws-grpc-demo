@@ -15,11 +15,6 @@ COPY . .
 
 # 暴露端口
 EXPOSE 4000
-EXPOSE 4001
-EXPOSE 4002
-EXPOSE 10000
-EXPOSE 10001
-EXPOSE 10002
 
 # 默认命令
 CMD ["npm", "run", "dev"]

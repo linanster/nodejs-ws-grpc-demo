@@ -1,10 +1,10 @@
 import * as grpc from "@grpc/grpc-js";
-import { Server } from "../../../server/server";
+import { AuthServer } from "../../../server/auth";
 
 export function login(
   call: grpc.ServerUnaryCall<any, any>,
   callback: grpc.sendUnaryData<any>,
-  server: Server,
+  server: AuthServer,
 ) {
   const { username, password, gatewayPort } = call.request;
   // 这里添加登录逻辑

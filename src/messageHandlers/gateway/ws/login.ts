@@ -2,12 +2,12 @@ import * as grpc from "@grpc/grpc-js";
 import { createGrpcClient } from "../../../utils/grpcUtils";
 import { sendWsResponse } from "../../../utils/wsUtils";
 import WebSocket from "ws";
-import { Gateway } from "../../../server/gateway";
+import { GatewayServer } from "../../../server/gateway";
 
 export default function handlerLogin(
   ws: WebSocket,
   data: any,
-  gateway: Gateway,
+  gateway: GatewayServer,
 ) {
   // 创建 gRPC 客户端
   const authPackage = createGrpcClient("./src/proto/auth.proto");

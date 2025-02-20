@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   auth1:
+    image: my-image
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,6 +13,7 @@ services:
       - "10001:10001"
 
   auth2:
+    image: my-image
     build:
       context: .
       dockerfile: Dockerfile
@@ -32,6 +34,7 @@ services:
       - auth2
 
   gateway1:
+    image: my-image
     build:
       context: .
       dockerfile: Dockerfile
@@ -43,6 +46,7 @@ services:
       - "4001:4001"
 
   gateway2:
+    image: my-image
     build:
       context: .
       dockerfile: Dockerfile

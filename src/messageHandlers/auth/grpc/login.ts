@@ -6,12 +6,12 @@ export function login(
   callback: grpc.sendUnaryData<any>,
   server: Server,
 ) {
-  const { username, password } = call.request;
+  const { username, password, gatewayPort } = call.request;
   // 这里添加登录逻辑
   if (username === "admin" && password === "password") {
     callback(null, {
       success: true,
-      message: "Login successful: " + server.grpcPort,
+      message: "Login successful: " + gatewayPort + ", " + server.grpcPort,
     });
   } else {
     callback(null, { success: false, message: "Invalid credentials" });

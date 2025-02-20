@@ -20,7 +20,11 @@ export default function handlerLogin(
 
   // 调用 gRPC 服务进行认证
   client.login(
-    { username: data.username, password: data.password },
+    {
+      username: data.username,
+      password: data.password,
+      gatewayPort: gateway.wsPort,
+    },
     (err: any, response: any) => {
       if (err) {
         console.error("gRPC error:", err);

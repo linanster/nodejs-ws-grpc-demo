@@ -35,7 +35,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: sh -c "npm i && ode dist/server/gateway.js"
+    command: sh -c "npm i && node dist/server/gateway.js"
     environment:
       - AUTH_LB=auth-lb:10000
       - WS_PORT=4001

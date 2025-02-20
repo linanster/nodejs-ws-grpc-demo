@@ -7,9 +7,10 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
-    "dev:gateway": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/gateway.ts",
-    "dev:auth1": "PORT=50051 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/auth.ts",
-    "dev:auth2": "PORT=50052 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/auth.ts",
+    "dev:gateway": "WS_PORT=4000 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/gateway.ts",
+    "dev:auth": "GRPC_PORT=10000 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/auth.ts",
+    "dev:auth1": "GRPC_PORT=10001 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/auth.ts",
+    "dev:auth2": "GRPC_PORT=10002 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/auth.ts",
     "format": "prettier --write 'src/**/*.ts'",
     "gen-proto": "protoc --plugin=protoc-gen-js=./node_modules/.bin/protoc-gen-js --js_out=import_style=commonjs,binary:./ --ts_out=service=grpc-web:./ src/proto/gateway.proto"
   },

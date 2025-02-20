@@ -3,5 +3,7 @@ import { createGrpcClient } from "../utils/grpcUtils";
 
 const server = new Server("auth");
 const protoPackage = createGrpcClient("./src/proto/auth.proto");
-const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 50051;
-server.startGrpc(port, protoPackage.auth.AuthService.service);
+const grpcPort = process.env.GRPC_PORT
+  ? parseInt(process.env.GRPC_PORT, 10)
+  : 5000;
+server.startGrpc(grpcPort, protoPackage.auth.AuthService.service);

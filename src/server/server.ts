@@ -7,6 +7,8 @@ import { createGrpcClient } from "../utils/grpcUtils";
 
 export class Server {
   public serverType: string;
+  public wsPort: number = 0;
+  public grpcPort: number = 0;
   private wss: WebSocket.Server | undefined;
 
   constructor(serverType: string) {
@@ -14,6 +16,7 @@ export class Server {
   }
 
   public startWs(port: number): void {
+    this.wsPort = port;
     this.wss = new WebSocket.Server({ port }); // 初始化 wss
 
     const handlersPath = path.join(
@@ -29,7 +32,10 @@ export class Server {
           acc[messageType] = require(path.join(handlersPath, file)).default;
           return acc;
         },
-        {} as Record<string, (ws: WebSocket, data: any) => void>,
+        {} as Record<
+          string,
+          (ws: WebSocket, data: any, server: Server) => void
+        >,
       );
 
     this.wss.on("connection", (ws) => {
@@ -42,7 +48,7 @@ export class Server {
 
           const handler = handlers![data.messageType];
           if (handler) {
-            handler(ws, data.body);
+            handler(ws, data.body, this);
           } else {
             sendWsResponse(ws, data.messageType, "暂不支持!");
           }
@@ -64,6 +70,7 @@ export class Server {
     port: number,
     serviceDefinition: grpc.ServiceDefinition,
   ): void {
+    this.grpcPort = port;
     const grpcHandlersDir = path.join(
       __dirname,
       "../messageHandlers/" + this.serverType + "/grpc",
@@ -80,7 +87,13 @@ export class Server {
         const handlerModule = require(path.join(grpcHandlersDir, file));
         for (const key in handlerModule) {
           if (typeof handlerModule[key] === "function") {
-            service[key] = handlerModule[key];
+            // 传递 Server 实例给 login 函数
+            service[key] = (
+              call: grpc.ServerUnaryCall<any, any>,
+              callback: grpc.sendUnaryData<any>,
+            ) => {
+              handlerModule[key](call, callback, this);
+            };
           }
         }
       }

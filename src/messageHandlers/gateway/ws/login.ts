@@ -2,16 +2,20 @@ import * as grpc from "@grpc/grpc-js";
 import { createGrpcClient } from "../../../utils/grpcUtils";
 import { sendWsResponse } from "../../../utils/wsUtils";
 import WebSocket from "ws";
+import { Gateway } from "../../../server/gateway";
 
-const authPackage = createGrpcClient("./src/proto/auth.proto");
+export default function handlerLogin(
+  ws: WebSocket,
+  data: any,
+  gateway: Gateway,
+) {
+  // 创建 gRPC 客户端
+  const authPackage = createGrpcClient("./src/proto/auth.proto");
+  const client = new (authPackage as any).auth.AuthService(
+    gateway.authLb,
+    grpc.credentials.createInsecure(),
+  );
 
-// 创建 gRPC 客户端
-const client = new (authPackage as any).auth.AuthService(
-  "0.0.0.0:50051",
-  grpc.credentials.createInsecure(),
-);
-
-export default function handlerLogin(ws: WebSocket, data: any) {
   console.log("Handling login request:", data);
 
   // 调用 gRPC 服务进行认证
@@ -22,7 +26,7 @@ export default function handlerLogin(ws: WebSocket, data: any) {
         console.error("gRPC error:", err);
         sendWsResponse(ws, "login", {
           success: false,
-          message: "认证失败",
+          message: "认证失败" + gateway.wsPort,
         });
       } else {
         console.log("gRPC response:", response);

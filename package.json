@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "start:auth": "node dist/server/index.js",
+    "start:auth": "node dist/server/auth.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "dev:gateway": "SERVER_ID=1 WS_PORT=4000 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/gateway.ts",
     "dev:auth": "SERVER_ID=1 GRPC_PORT=10000 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/auth.ts",

@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
-    "dev:gateway": "SERVER_ID=1 WS_PORT=4000 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/gateway.ts",
+    "dev:gateway": "AUTH_LB=nlb-0pdallj6lhrz7nyh54.cn-hangzhou.nlb.aliyuncsslb.com:10001 SERVER_ID=1 WS_PORT=4000 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/gateway.ts",
     "dev:auth": "SERVER_ID=1 GRPC_PORT=10000 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/auth.ts",
     "dev:auth1": "SERVER_ID=1 GRPC_PORT=10001 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/auth.ts",
     "dev:auth2": "SERVER_ID=2 GRPC_PORT=10002 nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server/auth.ts",

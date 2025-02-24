@@ -9,6 +9,7 @@ export function login(
   const { username, password, gatewayPort } = call.request;
   // 这里添加登录逻辑
   if (username === "admin" && password === "password") {
+    console.log(call.request);
     callback(null, {
       success: true,
       message: "Login successful: " + gatewayPort + ", " + server.serverId,

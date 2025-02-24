@@ -11,7 +11,7 @@ export function login(
   if (username === "admin" && password === "password") {
     callback(null, {
       success: true,
-      message: "Login successful: " + gatewayPort + ", " + server.grpcPort,
+      message: "Login successful: " + gatewayPort + ", " + server.serverId,
     });
   } else {
     callback(null, { success: false, message: "Invalid credentials" });

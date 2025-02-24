@@ -8,6 +8,7 @@ services:
       dockerfile: Dockerfile
     command: sh -c "npm i && node dist/server/auth.js"
     environment:
+      - SERVER_ID=1
       - GRPC_PORT=10001
     ports:
       - "10001:10001"
@@ -19,6 +20,7 @@ services:
       dockerfile: Dockerfile
     command: sh -c "npm i && node dist/server/auth.js"
     environment:
+      - SERVER_ID=2
       - GRPC_PORT=10002
     ports:
       - "10002:10002"
@@ -40,6 +42,7 @@ services:
       dockerfile: Dockerfile
     command: sh -c "npm i && node dist/server/gateway.js"
     environment:
+      - SERVER_ID=1
       - AUTH_LB=auth-lb:10000
       - WS_PORT=4001
     ports:
@@ -52,6 +55,7 @@ services:
       dockerfile: Dockerfile
     command: sh -c "npm i && node dist/server/gateway.js"
     environment:
+      - SERVER_ID=2
       - AUTH_LB=auth-lb:10000
       - WS_PORT=4002
     ports:

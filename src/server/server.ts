@@ -6,12 +6,14 @@ import * as grpc from "@grpc/grpc-js";
 import { createGrpcClient } from "../utils/grpcUtils";
 
 export class Server {
+  public serverId: number = 0;
   public serverType: string;
   public wsPort: number = 0;
   public grpcPort: number = 0;
   private wss: WebSocket.Server | undefined;
 
-  constructor(serverType: string) {
+  constructor(serverId: number, serverType: string) {
+    this.serverId = serverId;
     this.serverType = serverType;
   }
 

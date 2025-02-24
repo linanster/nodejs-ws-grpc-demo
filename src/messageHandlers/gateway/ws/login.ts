@@ -30,7 +30,7 @@ export default function handlerLogin(
         console.error("gRPC error:", err);
         sendWsResponse(ws, "login", {
           success: false,
-          message: "认证失败" + gateway.wsPort,
+          message: "认证失败" + gateway.serverId,
         });
       } else {
         console.log("gRPC response:", response);

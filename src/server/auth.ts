@@ -1,9 +1,13 @@
 import { Server } from "./server";
 import { createGrpcClient } from "../utils/grpcUtils";
 
+const serverId = process.env.SERVER_ID
+  ? parseInt(process.env.SERVER_ID, 10)
+  : 0;
+
 export class AuthServer extends Server {
   constructor() {
-    super("auth");
+    super(serverId, "auth");
   }
 }
 

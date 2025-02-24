@@ -8,4 +8,5 @@ RUN npm install
 
 EXPOSE 10001
 
-CMD [ "node", "dist/server/auth.js" ]
+# CMD [ "node", "dist/server/auth.js" ]
+CMD [ "npm", "run", "start:auth" ]

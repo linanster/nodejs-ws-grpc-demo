@@ -14,6 +14,11 @@ export default function handlerLogin(
   const client = new (authPackage as any).auth.AuthService(
     gateway.authLb,
     grpc.credentials.createInsecure(),
+    process.env["ENABLE_ROUND_ROBIN"] === "true"
+      ? {
+          "grpc.service_config": '{"loadBalancingConfig":[{"round_robin":{}}]}',
+        }
+      : undefined
   );
 
   console.log("Handling login request:", data);

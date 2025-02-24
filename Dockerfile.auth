@@ -1,0 +1,11 @@
+FROM acr-on-enterprise-registry.cn-hangzhou.cr.aliyuncs.com/on-common/node:18.18.2
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install
+
+EXPOSE 10001
+
+CMD [ "node", "dist/server/auth.js" ]

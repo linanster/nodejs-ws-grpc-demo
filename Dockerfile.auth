@@ -6,6 +6,8 @@ COPY . .
 
 RUN npm install
 
+RUN npm build
+
 EXPOSE 10001
 
 # CMD [ "node", "dist/server/auth.js" ]

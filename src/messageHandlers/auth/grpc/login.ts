@@ -15,7 +15,7 @@ export function login(
     callback(null, {
       success: true,
       // message: "Login successful: " + gatewayPort + ", " + server.serverId + os.hostname(),
-      message: "Login successful os.hostname(),
+      message: "Login successful " + os.hostname(),
     });
   } else {
     callback(null, { success: false, message: "Invalid credentials" });

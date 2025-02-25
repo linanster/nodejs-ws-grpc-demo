@@ -1,6 +1,8 @@
 import * as grpc from "@grpc/grpc-js";
 import { AuthServer } from "../../../server/auth";
 
+const os = require('os');
+
 export function login(
   call: grpc.ServerUnaryCall<any, any>,
   callback: grpc.sendUnaryData<any>,
@@ -12,7 +14,7 @@ export function login(
     console.log(call.request);
     callback(null, {
       success: true,
-      message: "Login successful: " + gatewayPort + ", " + server.serverId,
+      message: "Login successful: " + gatewayPort + ", " + server.serverId + os.hostname(),
     });
   } else {
     callback(null, { success: false, message: "Invalid credentials" });
